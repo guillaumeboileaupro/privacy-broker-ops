@@ -1,0 +1,27 @@
+Bonjour,
+
+Je vous contacte afin d’exercer mes droits au titre du Règlement général sur la protection des données (RGPD), notamment mon droit d’opposition et, lorsque applicable, mon droit à l’effacement.
+
+Identité concernée : {{ person.full_name }}
+Email de contact : {{ person.email }}
+
+Une fiche ou page semble exposer des informations personnelles me concernant sur votre service :
+{{ exposure.url }}
+
+Type de données repérées : {{ exposure.data_type or "à préciser" }}
+Statut interne de vérification : {{ exposure.status.value }}
+
+Je vous demande de :
+
+1. supprimer les données personnelles me concernant lorsque leur conservation n’est pas justifiée ;
+2. cesser leur diffusion publique ;
+3. m’indiquer la source des données lorsque vous la détenez ;
+4. me confirmer par écrit la prise en compte de cette demande.
+
+Si vous estimez avoir besoin d’un justificatif d’identité, merci d’indiquer précisément pourquoi et par quel canal sécurisé le transmettre.
+
+Merci de traiter cette demande dans les délais prévus par le RGPD.
+
+Cordialement,
+
+{{ person.full_name }}

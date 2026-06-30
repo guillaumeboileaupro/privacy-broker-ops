@@ -1,0 +1,71 @@
+- id: google_results_about_you
+  name: "Google Results about you"
+  category: "search_engine"
+  country: "US/EU"
+  request_channel: "form"
+  optout_url: "https://myactivity.google.com/results-about-you"
+  contact_email: ""
+  notes: "Pour demander le retrait de certains résultats de recherche contenant des données personnelles."
+
+- id: bing_eu_privacy
+  name: "Bing EU Privacy Request"
+  category: "search_engine"
+  country: "US/EU"
+  request_channel: "form"
+  optout_url: "https://www.bing.com/webmaster/tools/eu-privacy-request?setlang=fr"
+  contact_email: ""
+  notes: "Formulaire droit à l'oubli / retrait de résultats Bing pour résidents européens."
+
+- id: linkedin
+  name: "LinkedIn"
+  category: "professional_profile"
+  country: "US/EU"
+  request_channel: "settings"
+  optout_url: "https://www.linkedin.com/public-profile/settings"
+  contact_email: ""
+  notes: "Réglage de visibilité publique du profil."
+
+- id: researchgate
+  name: "ResearchGate"
+  category: "academic_profile"
+  country: "DE/EU"
+  request_channel: "settings"
+  optout_url: "https://www.researchgate.net/settings/privacy"
+  contact_email: ""
+  notes: "Réglages de confidentialité du profil public."
+
+- id: uca_directory
+  name: "Université Côte d’Azur Directory"
+  category: "institution_directory"
+  country: "FR"
+  request_channel: "email"
+  optout_url: ""
+  contact_email: "dpo@univ-cotedazur.fr"
+  notes: "Demande à adresser au DPO si une fiche annuaire expose trop d'informations."
+
+- id: pagesjaunes
+  name: "PagesJaunes / PagesBlanches"
+  category: "directory"
+  country: "FR"
+  request_channel: "form_or_operator"
+  optout_url: "https://www.pagesjaunes.fr/infoslegales/vieprivee-protection/"
+  contact_email: ""
+  notes: "Vérifier d'abord si la fiche concerne vraiment la personne. La source peut être l'opérateur téléphonique."
+
+- id: idcrawl
+  name: "IDCrawl"
+  category: "people_search"
+  country: "US"
+  request_channel: "form"
+  optout_url: "https://www.idcrawl.com/remove-my-information"
+  contact_email: ""
+  notes: "People-search. Ne pas confirmer automatiquement : risque d'homonymes."
+
+- id: kompass
+  name: "Kompass"
+  category: "business_directory"
+  country: "FR/EU"
+  request_channel: "email_or_form"
+  optout_url: "https://www.solutions.kompass.com/fr/politique-generale-de-protection-des-donnees-a-caractere-personnel/"
+  contact_email: "privacy@kompass.com"
+  notes: "Vérifier si la fiche entreprise concerne réellement la personne."

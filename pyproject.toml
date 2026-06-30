@@ -1,0 +1,49 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "privacy-broker-ops"
+version = "0.1.0"
+description = "Outil local de suivi RGPD pour data brokers, annuaires et demandes de suppression."
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [{ name = "Guillaume Boileau" }]
+dependencies = [
+    "typer>=0.12.5",
+    "rich>=13.9.0",
+    "pydantic>=2.9.0",
+    "pyyaml>=6.0.2",
+    "jinja2>=3.1.4",
+    "fastapi>=0.115.0",
+    "uvicorn>=0.32.0",
+    "python-dateutil>=2.9.0",
+]
+
+[project.scripts]
+pbo = "privacy_broker_ops.cli:app"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.0",
+    "ruff>=0.7.0",
+    "mypy>=1.12.0",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+ignore_missing_imports = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/privacy_broker_ops"]
