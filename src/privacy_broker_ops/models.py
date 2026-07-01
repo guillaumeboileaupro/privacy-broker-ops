@@ -33,6 +33,13 @@ class MailKind(StrEnum):
     OTHER = "OTHER"
 
 
+class ReminderKind(StrEnum):
+    NONE = "NONE"
+    SOFT = "SOFT"
+    FORMAL = "FORMAL"
+    CNIL = "CNIL"
+
+
 class Broker(BaseModel):
     id: str
     name: str
@@ -110,6 +117,7 @@ class AgentDecision(BaseModel):
     broker_id: str
     current_status: ExposureStatus
     recommended_status: ExposureStatus
+    reminder_kind: ReminderKind = ReminderKind.NONE
     reason: str
     urgency: Literal["ok", "soon", "urgent"] = "ok"
     days_since_last_contact: int | None = Field(default=None, ge=0)

@@ -107,6 +107,12 @@ Vérifier les relances à faire :
 uv run pbo agent check --profile guillaume
 ```
 
+Generer un brouillon de relance :
+
+```bash
+uv run pbo reminder generate --profile guillaume --exposure-id 1
+```
+
 Exporter le tracker :
 
 ```bash
@@ -200,6 +206,15 @@ La base `mail_events` conserve uniquement :
 - un hash `sha256` ;
 - un extrait court du corps ;
 - les metadonnees utiles : sujet, expediteur, destinataire, dates et type.
+
+## Agent de relance
+
+Regles par defaut :
+
+- J+15 : relance douce
+- J+30 : relance RGPD ferme
+- J+45 : preparation CNIL
+- aucune relance pour `CLOS`, `SUPPRESSION_CONFIRMEE`, `HOMONYME`, `REFUS`
 
 ## Tests
 
