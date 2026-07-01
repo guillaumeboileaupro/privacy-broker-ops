@@ -63,14 +63,14 @@ Règle d’usage :
 
 ## Phase 4 — relances et agent de suivi
 
-- [ ] Appliquer le prompt `docs/codex-prompts/04-reminder-agent.md`.
-- [ ] Ajouter la règle J+15 : relance douce.
-- [ ] Ajouter la règle J+30 : relance RGPD ferme.
-- [ ] Ajouter la règle J+45 : `CNIL_A_ENVISAGER`.
-- [ ] Ajouter `pbo agent check`.
-- [ ] Ajouter `pbo reminder generate`.
-- [ ] Ajouter un résumé terminal urgent / bientôt / ok.
-- [ ] Ajouter des tests sur les délais de relance.
+- [X] Appliquer le prompt `docs/codex-prompts/04-reminder-agent.md`.
+- [X] Ajouter la règle J+15 : relance douce.
+- [X] Ajouter la règle J+30 : relance RGPD ferme.
+- [X] Ajouter la règle J+45 : `CNIL_A_ENVISAGER`.
+- [X] Ajouter `pbo agent check`.
+- [X] Ajouter `pbo reminder generate`.
+- [X] Ajouter un résumé terminal urgent / bientôt / ok.
+- [X] Ajouter des tests sur les délais de relance.
 - [ ] Lancer `uv run pytest`.
 - [ ] Lancer `uv run ruff check .`.
 

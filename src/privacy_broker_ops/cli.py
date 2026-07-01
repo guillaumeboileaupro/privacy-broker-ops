@@ -17,15 +17,16 @@ from .config import (
 )
 from .dashboard import create_app
 from .mail import build_eml, import_mail_file, write_eml
-from .models import ExposureCreate, ExposureStatus, MailEventCreate
+from .models import ExposureCreate, ExposureStatus, MailEventCreate, ReminderKind
 from .person import load_person
-from .render import render_request
+from .render import render_reminder_kind, render_request
 from .repository import Repository
 
 app = typer.Typer(help="Privacy Broker Ops — suivi local des demandes RGPD.")
 brokers_app = typer.Typer(help="Gestion du registre des brokers.")
 exposure_app = typer.Typer(help="Gestion des expositions trouvées.")
 request_app = typer.Typer(help="Generation des demandes RGPD.")
+reminder_app = typer.Typer(help="Generation des relances.")
 tracker_app = typer.Typer(help="Export et suivi.")
 agent_app = typer.Typer(help="Agent local de suivi des relances.")
 mail_app = typer.Typer(help="Import et suivi des mails.")
@@ -33,6 +34,7 @@ mail_app = typer.Typer(help="Import et suivi des mails.")
 app.add_typer(brokers_app, name="brokers")
 app.add_typer(exposure_app, name="exposure")
 app.add_typer(request_app, name="request")
+app.add_typer(reminder_app, name="reminder")
 app.add_typer(tracker_app, name="tracker")
 app.add_typer(agent_app, name="agent")
 app.add_typer(mail_app, name="mail")
@@ -86,6 +88,12 @@ def resolve_mail_root(profile: str, db: Path | None) -> Path:
     if db is not None:
         return db.parent / "mail"
     return profile_paths(profile).mail_dir
+
+
+def resolve_reminders_out(profile: str, out: Path | None) -> Path:
+    if out is not None:
+        return out
+    return profile_paths(profile).reminders_dir
 
 
 @app.command()
@@ -231,11 +239,18 @@ def agent_check(
     repo = Repository(resolve_db_path(profile, db))
     repo.init()
     decisions = [evaluate_exposure(item) for item in repo.list_exposures()]
+    urgent = sum(1 for item in decisions if item.urgency == "urgent")
+    soon = sum(1 for item in decisions if item.urgency == "soon")
+    ok = sum(1 for item in decisions if item.urgency == "ok")
+    console.print(f"[red]urgent:[/red] {urgent}")
+    console.print(f"[yellow]bientot:[/yellow] {soon}")
+    console.print(f"[green]ok:[/green] {ok}")
     table = Table(title="Agent de suivi")
     table.add_column("ID")
     table.add_column("Broker")
     table.add_column("Actuel")
     table.add_column("Recommande")
+    table.add_column("Brouillon")
     table.add_column("Urgence")
     table.add_column("Raison")
     for decision in decisions:
@@ -244,10 +259,48 @@ def agent_check(
             decision.broker_id,
             decision.current_status.value,
             decision.recommended_status.value,
+            decision.reminder_kind.value,
             decision.urgency,
             decision.reason,
         )
     console.print(table)
+
+
+@reminder_app.command("generate")
+def reminder_generate(
+    exposure_id: int = typer.Option(..., help="ID exposition."),
+    profile: str = PROFILE_OPTION,
+    out: Path | None = REQUESTS_OUT_OPTION,
+    db: Path | None = DB_OPTION,
+    brokers_path: Path | None = BROKERS_OPTION,
+    person_path: Path | None = PERSON_OPTION,
+) -> None:
+    """Genere un brouillon de relance ou de preparation CNIL."""
+    repo = Repository(resolve_db_path(profile, db))
+    repo.init()
+    exposure = repo.get_exposure(exposure_id)
+    decision = evaluate_exposure(exposure)
+    if decision.reminder_kind == ReminderKind.NONE:
+        raise typer.BadParameter(
+            "Aucun brouillon de relance n'est recommande pour cette exposition."
+        )
+
+    broker = broker_by_id(brokers_path or DEFAULT_BROKERS_PATH, exposure.broker_id)
+    person = load_person(resolve_person_path(profile, person_path))
+    days = decision.days_since_last_contact or 0
+    body = render_reminder_kind(
+        person=person,
+        broker=broker,
+        exposure=exposure,
+        days=days,
+        reminder_kind=decision.reminder_kind,
+    )
+    out_dir = resolve_reminders_out(profile, out)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    suffix = decision.reminder_kind.value.lower()
+    target = out_dir / f"reminder_{exposure.id}_{broker.id}_{suffix}.txt"
+    target.write_text(body, encoding="utf-8")
+    console.print(f"[green]Brouillon genere :[/green] {target}")
 
 
 @tracker_app.command("export")

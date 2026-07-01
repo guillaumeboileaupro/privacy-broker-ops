@@ -46,6 +46,10 @@ class ProfilePaths:
     def tracker_path(self) -> Path:
         return self.exports_dir / "tracker.csv"
 
+    @property
+    def reminders_dir(self) -> Path:
+        return self.exports_dir / "reminders"
+
     def ensure_dirs(self) -> None:
         self.root.mkdir(parents=True, exist_ok=True)
         self.mail_dir.mkdir(parents=True, exist_ok=True)
