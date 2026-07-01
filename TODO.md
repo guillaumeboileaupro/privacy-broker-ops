@@ -9,6 +9,24 @@ Règle d’usage :
 - vérifier les tests après chaque passe ;
 - ne jamais commiter/pousser sans validation explicite.
 
+## Redémarrage propre
+
+- [X] Revenir sur `master` et reprendre depuis `origin/master`.
+- [X] Sauvegarder les changements locaux hors Git avant nettoyage.
+- [X] Retirer `agent` des noms de fichiers suivis quand une alternative claire existe.
+- [ ] Rejouer chaque phase sur une branche dédiée avec un nom simple et sans `agent`.
+- [ ] Ouvrir une PR par phase, pas de PR fourre-tout.
+- [ ] Viser 4 commits par PR.
+- [ ] Garder des commits petits et cohérents, cible < 100 lignes modifiées par commit quand c'est réaliste.
+
+Branches cibles pour le redémarrage :
+- `docs/workflow-rules`
+- `feat/profile-storage`
+- `feat/mail-events`
+- `feat/reminder-workflow`
+- `feat/dashboard-hardening`
+- `docs/final-docs`
+
 ## V0 — socle local
 
 - [X] Initialiser le projet Python avec `uv`.
@@ -25,7 +43,7 @@ Règle d’usage :
 
 ## Phase 1 — règles agent, Git et sécurité
 
-- [X] Appliquer le prompt `docs/codex-prompts/01-agent-rules.md`.
+- [X] Appliquer le prompt `docs/codex-prompts/01-workflow-rules.md`.
 - [X] Ajouter ou mettre à jour `AGENT.md`.
 - [X] Ajouter les règles Git et PR strictes.
 - [X] Ajouter l’obligation Conventional Commits 1.0.0.
@@ -63,7 +81,7 @@ Règle d’usage :
 
 ## Phase 4 — relances et agent de suivi
 
-- [ ] Appliquer le prompt `docs/codex-prompts/04-reminder-agent.md`.
+- [ ] Appliquer le prompt `docs/codex-prompts/04-reminder-workflow.md`.
 - [ ] Ajouter la règle J+15 : relance douce.
 - [ ] Ajouter la règle J+30 : relance RGPD ferme.
 - [ ] Ajouter la règle J+45 : `CNIL_A_ENVISAGER`.
