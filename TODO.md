@@ -50,16 +50,16 @@ Règle d’usage :
 
 ## Phase 3 — suivi des mails
 
-- [ ] Appliquer le prompt `docs/codex-prompts/03-mail-events.md`.
-- [ ] Ajouter ou compléter la table `mail_events`.
-- [ ] Stocker les `.eml` hors Git dans le profil local.
-- [ ] Ajouter `sha256` pour tracer les preuves.
-- [ ] Ajouter `pbo mail import`.
-- [ ] Importer `.eml` et `.txt`.
-- [ ] Ne stocker qu’un extrait court du corps dans la DB.
-- [ ] Ajouter des tests d’import mail avec données fictives.
-- [ ] Lancer `uv run pytest`.
-- [ ] Lancer `uv run ruff check .`.
+- [X] Appliquer le prompt `docs/codex-prompts/03-mail-events.md`.
+- [X] Ajouter ou compléter la table `mail_events`.
+- [X] Stocker les `.eml` hors Git dans le profil local.
+- [X] Ajouter `sha256` pour tracer les preuves.
+- [X] Ajouter `pbo mail import`.
+- [X] Importer `.eml` et `.txt`.
+- [X] Ne stocker qu’un extrait court du corps dans la DB.
+- [X] Ajouter des tests d’import mail avec données fictives.
+- [X] Lancer `uv run pytest`.
+- [X] Lancer `uv run ruff check .`.
 
 ## Phase 4 — relances et agent de suivi
 

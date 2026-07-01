@@ -16,8 +16,8 @@ from .config import (
     resolve_profile_paths,
 )
 from .dashboard import create_app
-from .mail import build_eml, write_eml
-from .models import ExposureCreate, ExposureStatus
+from .mail import build_eml, import_mail_file, write_eml
+from .models import ExposureCreate, ExposureStatus, MailEventCreate
 from .person import load_person
 from .render import render_request
 from .repository import Repository
@@ -28,12 +28,14 @@ exposure_app = typer.Typer(help="Gestion des expositions trouvées.")
 request_app = typer.Typer(help="Generation des demandes RGPD.")
 tracker_app = typer.Typer(help="Export et suivi.")
 agent_app = typer.Typer(help="Agent local de suivi des relances.")
+mail_app = typer.Typer(help="Import et suivi des mails.")
 
 app.add_typer(brokers_app, name="brokers")
 app.add_typer(exposure_app, name="exposure")
 app.add_typer(request_app, name="request")
 app.add_typer(tracker_app, name="tracker")
 app.add_typer(agent_app, name="agent")
+app.add_typer(mail_app, name="mail")
 console = Console()
 
 PROFILE_OPTION = typer.Option(
@@ -47,6 +49,7 @@ PERSON_OPTION = typer.Option(None, help="Fichier personne YAML local.")
 REQUESTS_OUT_OPTION = typer.Option(None, help="Dossier de sortie des demandes.")
 MAIL_OUT_OPTION = typer.Option(None, help="Dossier de sortie des brouillons .eml.")
 TRACKER_OUT_OPTION = typer.Option(None, help="Fichier CSV de sortie.")
+MAIL_FILE_OPTION = typer.Option(..., exists=True, dir_okay=False, help="Fichier mail .eml ou .txt.")
 EXPOSURE_STATUS_OPTION = typer.Option(
     ExposureStatus.A_VERIFIER,
     help="Statut initial.",
@@ -77,6 +80,12 @@ def resolve_mail_out(profile: str, out: Path | None) -> Path:
 
 def resolve_tracker_out(profile: str, out: Path | None) -> Path:
     return out or profile_paths(profile).tracker_path
+
+
+def resolve_mail_root(profile: str, db: Path | None) -> Path:
+    if db is not None:
+        return db.parent / "mail"
+    return profile_paths(profile).mail_dir
 
 
 @app.command()
@@ -253,6 +262,68 @@ def tracker_export(
     target = resolve_tracker_out(profile, out)
     repo.export_csv(target)
     console.print(f"[green]Tracker exporte :[/green] {target}")
+
+
+@mail_app.command("import")
+def mail_import(
+    exposure_id: int = typer.Option(..., help="ID exposition."),
+    file: Path = MAIL_FILE_OPTION,
+    profile: str = PROFILE_OPTION,
+    db: Path | None = DB_OPTION,
+) -> None:
+    """Importe un mail local et le trace dans la base."""
+    repo = Repository(resolve_db_path(profile, db))
+    repo.init()
+    exposure = repo.get_exposure(exposure_id)
+    imported = import_mail_file(file, resolve_mail_root(profile, db))
+    event_id = repo.add_mail_event(
+        MailEventCreate(
+            exposure_id=exposure.id,
+            broker_id=exposure.broker_id,
+            direction=imported.direction,
+            kind=imported.kind,
+            subject=imported.subject,
+            from_address=imported.from_address,
+            to_address=imported.to_address,
+            sent_at=imported.sent_at,
+            received_at=imported.received_at,
+            status=imported.status,
+            eml_path=str(imported.stored_path),
+            body_excerpt=imported.body_excerpt,
+            sha256=imported.sha256,
+        )
+    )
+    console.print(f"[green]Mail importe :[/green] #{event_id}")
+    console.print(f"[green]Stocke dans :[/green] {imported.stored_path}")
+
+
+@mail_app.command("list")
+def mail_list(
+    profile: str = PROFILE_OPTION,
+    db: Path | None = DB_OPTION,
+) -> None:
+    """Liste les mails traces dans la base locale."""
+    repo = Repository(resolve_db_path(profile, db))
+    repo.init()
+    table = Table(title="Mail events")
+    table.add_column("ID")
+    table.add_column("Exposure")
+    table.add_column("Broker")
+    table.add_column("Direction")
+    table.add_column("Type")
+    table.add_column("Subject")
+    table.add_column("SHA256")
+    for event in repo.list_mail_events():
+        table.add_row(
+            str(event.id),
+            str(event.exposure_id),
+            event.broker_id,
+            event.direction.value,
+            event.kind.value,
+            event.subject,
+            event.sha256[:12],
+        )
+    console.print(table)
 
 
 @app.command()

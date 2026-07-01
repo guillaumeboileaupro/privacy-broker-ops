@@ -49,6 +49,9 @@ Les donnees personnelles reelles doivent rester dans des fichiers locaux ignores
 - `~/.local/share/privacy-broker-ops/profiles/default/person.yaml`
 - `~/.local/share/privacy-broker-ops/profiles/default/privacy_broker_ops.db`
 - `~/.local/share/privacy-broker-ops/profiles/default/mail/`
+- `~/.local/share/privacy-broker-ops/profiles/default/mail/inbox/`
+- `~/.local/share/privacy-broker-ops/profiles/default/mail/sent/`
+- `~/.local/share/privacy-broker-ops/profiles/default/mail/drafts/`
 - `~/.local/share/privacy-broker-ops/profiles/default/evidence/`
 - `~/.local/share/privacy-broker-ops/profiles/default/exports/`
 

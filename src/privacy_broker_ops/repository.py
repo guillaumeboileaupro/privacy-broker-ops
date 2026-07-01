@@ -5,7 +5,7 @@ import sqlite3
 from datetime import UTC, datetime
 from pathlib import Path
 
-from .models import Exposure, ExposureCreate, ExposureStatus
+from .models import Exposure, ExposureCreate, ExposureStatus, MailEvent, MailEventCreate
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS exposures (
@@ -22,9 +22,18 @@ CREATE TABLE IF NOT EXISTS exposures (
 CREATE TABLE IF NOT EXISTS mail_events (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     exposure_id INTEGER NOT NULL,
+    broker_id TEXT NOT NULL,
     direction TEXT NOT NULL,
+    kind TEXT NOT NULL,
     subject TEXT NOT NULL,
-    body_path TEXT NOT NULL DEFAULT '',
+    from_address TEXT NOT NULL DEFAULT '',
+    to_address TEXT NOT NULL DEFAULT '',
+    sent_at TEXT,
+    received_at TEXT,
+    status TEXT NOT NULL DEFAULT '',
+    eml_path TEXT NOT NULL,
+    body_excerpt TEXT NOT NULL DEFAULT '',
+    sha256 TEXT NOT NULL,
     created_at TEXT NOT NULL,
     FOREIGN KEY(exposure_id) REFERENCES exposures(id)
 );
@@ -113,6 +122,52 @@ class Repository:
                     row.note,
                 ])
 
+    def add_mail_event(self, item: MailEventCreate) -> int:
+        with self.connect() as con:
+            cur = con.execute(
+                """
+                INSERT INTO mail_events (
+                    exposure_id,
+                    broker_id,
+                    direction,
+                    kind,
+                    subject,
+                    from_address,
+                    to_address,
+                    sent_at,
+                    received_at,
+                    status,
+                    eml_path,
+                    body_excerpt,
+                    sha256,
+                    created_at
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    item.exposure_id,
+                    item.broker_id,
+                    item.direction.value,
+                    item.kind.value,
+                    item.subject,
+                    item.from_address,
+                    item.to_address,
+                    item.sent_at,
+                    item.received_at,
+                    item.status,
+                    item.eml_path,
+                    item.body_excerpt,
+                    item.sha256,
+                    utc_now(),
+                ),
+            )
+            return int(cur.lastrowid)
+
+    def list_mail_events(self) -> list[MailEvent]:
+        with self.connect() as con:
+            rows = con.execute("SELECT * FROM mail_events ORDER BY id DESC").fetchall()
+        return [self._row_to_mail_event(row) for row in rows]
+
     @staticmethod
     def _row_to_exposure(row: sqlite3.Row) -> Exposure:
         return Exposure(
@@ -125,3 +180,7 @@ class Repository:
             discovered_at=str(row["discovered_at"]),
             last_contact_at=row["last_contact_at"],
         )
+
+    @staticmethod
+    def _row_to_mail_event(row: sqlite3.Row) -> MailEvent:
+        return MailEvent.model_validate(dict(row))
