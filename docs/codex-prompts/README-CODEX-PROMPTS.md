@@ -4,10 +4,10 @@ Ce dossier contient des prompts prêts à donner à Codex, dans l’ordre.
 
 ## Ordre recommandé
 
-1. `01-agent-rules.md`
+1. `01-workflow-rules.md`
 2. `02-local-private-storage.md`
 3. `03-mail-events.md`
-4. `04-reminder-agent.md`
+4. `04-reminder-workflow.md`
 5. `05-dashboard.md`
 6. `06-docs-and-final-check.md`
 
