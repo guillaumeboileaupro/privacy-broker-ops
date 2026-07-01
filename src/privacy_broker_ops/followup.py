@@ -8,6 +8,7 @@ from .models import AgentDecision, Exposure, ExposureStatus
 
 
 def days_since(iso: str) -> int:
+    """Return the number of days since an ISO timestamp."""
     dt = isoparse(iso)
     if dt.tzinfo is None:
         dt = dt.replace(tzinfo=UTC)
@@ -15,6 +16,7 @@ def days_since(iso: str) -> int:
 
 
 def evaluate_exposure(exposure: Exposure) -> AgentDecision:
+    """Compute the next reminder decision for a stored exposure."""
     if exposure.status != ExposureStatus.ENVOYE or not exposure.last_contact_at:
         return AgentDecision(
             exposure_id=exposure.id,
