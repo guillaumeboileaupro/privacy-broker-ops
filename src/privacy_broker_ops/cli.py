@@ -7,9 +7,9 @@ import uvicorn
 from rich.console import Console
 from rich.table import Table
 
-from .agent import evaluate_exposure
 from .brokers import broker_by_id, load_brokers
 from .config import DEFAULT_BROKERS_PATH, DEFAULT_DB_PATH, DEFAULT_PERSON_PATH
+from .followup import evaluate_exposure
 from .mail import build_eml, write_eml
 from .models import ExposureCreate, ExposureStatus
 from .person import load_person
