@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import csv
 import sqlite3
-from collections.abc import Iterable
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -41,6 +40,7 @@ class Repository:
         self.db_path = db_path
 
     def connect(self) -> sqlite3.Connection:
+        self.db_path.parent.mkdir(parents=True, exist_ok=True)
         con = sqlite3.connect(self.db_path)
         con.row_factory = sqlite3.Row
         return con

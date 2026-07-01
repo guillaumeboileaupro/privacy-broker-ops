@@ -37,16 +37,16 @@ Règle d’usage :
 
 ## Phase 2 — stockage local privé par profil
 
-- [ ] Appliquer le prompt `docs/codex-prompts/02-local-private-storage.md`.
-- [ ] Séparer données versionnées et données privées locales.
-- [ ] Ajouter le stockage par profil `default`.
-- [ ] Ajouter le stockage par profil nommé avec `--profile <name>`.
-- [ ] Stocker les données privées dans `~/.local/share/privacy-broker-ops/profiles/<profile>/`.
-- [ ] Corriger `.gitignore`.
-- [ ] Retirer toute DB réelle ou donnée privée du repo si présente.
-- [ ] Mettre à jour README et AGENT.
-- [ ] Lancer `uv run pytest`.
-- [ ] Lancer `uv run ruff check .`.
+- [X] Appliquer le prompt `docs/codex-prompts/02-local-private-storage.md`.
+- [X] Séparer données versionnées et données privées locales.
+- [X] Ajouter le stockage par profil `default`.
+- [X] Ajouter le stockage par profil nommé avec `--profile <name>`.
+- [X] Stocker les données privées dans `~/.local/share/privacy-broker-ops/profiles/<profile>/`.
+- [X] Corriger `.gitignore`.
+- [X] Retirer toute DB réelle ou donnée privée du repo si présente.
+- [X] Mettre à jour README et AGENT.
+- [X] Lancer `uv run pytest`.
+- [X] Lancer `uv run ruff check .`.
 
 ## Phase 3 — suivi des mails
 
@@ -109,7 +109,7 @@ Règle d’usage :
 - [X] Interdire force push.
 - [X] Ajouter un template PR dans `AGENT.md`.
 - [X] Ajouter une checklist avant commit/push.
-- [ ] Vérifier que `.gitignore` protège les DB, mails, preuves et fichiers personnels.
+- [X] Vérifier que `.gitignore` protège les DB, mails, preuves et fichiers personnels.
 
 ## Conventional Commits
 
