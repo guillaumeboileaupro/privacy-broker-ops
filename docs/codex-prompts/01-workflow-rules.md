@@ -1,4 +1,4 @@
-# Prompt Codex — 01 — AGENT.md, Git, PR et Conventional Commits
+# Prompt Codex — 01 — Workflow, Git, PR et Conventional Commits
 
 Tu travailles sur le projet `privacy-broker-ops`.
 
