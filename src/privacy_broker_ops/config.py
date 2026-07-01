@@ -49,6 +49,9 @@ class ProfilePaths:
     def ensure_dirs(self) -> None:
         self.root.mkdir(parents=True, exist_ok=True)
         self.mail_dir.mkdir(parents=True, exist_ok=True)
+        (self.mail_dir / "inbox").mkdir(parents=True, exist_ok=True)
+        (self.mail_dir / "sent").mkdir(parents=True, exist_ok=True)
+        (self.mail_dir / "drafts").mkdir(parents=True, exist_ok=True)
         self.evidence_dir.mkdir(parents=True, exist_ok=True)
         self.exports_dir.mkdir(parents=True, exist_ok=True)
 

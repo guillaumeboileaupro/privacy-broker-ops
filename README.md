@@ -80,10 +80,25 @@ Générer une demande RGPD :
 uv run pbo request generate --profile guillaume --exposure-id 1
 ```
 
-Generer un brouillon `.eml` :
+Générer un brouillon `.eml` :
 
 ```bash
 uv run pbo request eml --profile guillaume --exposure-id 1
+```
+
+Importer un mail recu ou un brouillon local dans le suivi :
+
+```bash
+uv run pbo mail import \
+  --profile guillaume \
+  --file /tmp/reponse.eml \
+  --exposure-id 1
+```
+
+Lister les mails traces :
+
+```bash
+uv run pbo mail list --profile guillaume
 ```
 
 Vérifier les relances à faire :
@@ -154,6 +169,9 @@ Fichiers principaux :
 ~/.local/share/privacy-broker-ops/profiles/<profile>/privacy_broker_ops.db
 ~/.local/share/privacy-broker-ops/profiles/<profile>/person.yaml
 ~/.local/share/privacy-broker-ops/profiles/<profile>/mail/
+~/.local/share/privacy-broker-ops/profiles/<profile>/mail/inbox/
+~/.local/share/privacy-broker-ops/profiles/<profile>/mail/sent/
+~/.local/share/privacy-broker-ops/profiles/<profile>/mail/drafts/
 ~/.local/share/privacy-broker-ops/profiles/<profile>/evidence/
 ~/.local/share/privacy-broker-ops/profiles/<profile>/exports/
 ```
@@ -171,6 +189,17 @@ cp data/person.example.yaml ~/.local/share/privacy-broker-ops/profiles/guillaume
 ```
 
 Ces fichiers ne doivent jamais etre commites.
+
+## Suivi des mails
+
+Les fichiers `.eml` et `.txt` importes restent hors Git dans le profil local.
+
+La base `mail_events` conserve uniquement :
+
+- le chemin local du fichier ;
+- un hash `sha256` ;
+- un extrait court du corps ;
+- les metadonnees utiles : sujet, expediteur, destinataire, dates et type.
 
 ## Tests
 
