@@ -1,4 +1,4 @@
-# Prompt Codex — 04 — Agent de suivi et relances
+# Prompt Codex — 04 — Suivi et relances
 
 Tu travailles sur le projet `privacy-broker-ops`.
 
