@@ -46,12 +46,11 @@ Ne jamais versionner :
 
 Les donnees personnelles reelles doivent rester dans des fichiers locaux ignores par Git, par exemple :
 
-- `data/person.yaml`
-- `data/tracker.db`
-- `out/`
-- `exports/`
-- `screenshots/`
-- `evidence/`
+- `~/.local/share/privacy-broker-ops/profiles/default/person.yaml`
+- `~/.local/share/privacy-broker-ops/profiles/default/privacy_broker_ops.db`
+- `~/.local/share/privacy-broker-ops/profiles/default/mail/`
+- `~/.local/share/privacy-broker-ops/profiles/default/evidence/`
+- `~/.local/share/privacy-broker-ops/profiles/default/exports/`
 
 ## Regles fonctionnelles
 

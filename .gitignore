@@ -1,0 +1,34 @@
+# Données locales privées
+instance/
+*.db
+*.sqlite
+*.sqlite3
+
+# Données personnelles réelles
+data/person.yaml
+data/*real*.yaml
+data/*private*.yaml
+
+# Exports et preuves
+out/
+exports/
+evidence/
+screenshots/
+
+# Emails locaux
+*.eml
+mail/
+local_mail/
+
+# Environnement Python
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.cache/
+
+# Secrets
+.env
+.env.*
+!.env.example
