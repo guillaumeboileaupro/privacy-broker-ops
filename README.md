@@ -233,6 +233,59 @@ Regles par defaut :
 - J+45 : preparation CNIL
 - aucune relance pour `CLOS`, `SUPPRESSION_CONFIRMEE`, `HOMONYME`, `REFUS`
 
+## Donnees privees et Git
+
+Regles minimales :
+
+- ne jamais versionner `person.yaml` reel ;
+- ne jamais versionner une base SQLite reelle ;
+- ne jamais versionner un `.eml` reel ou un export local ;
+- ne jamais versionner `.env`, token, cookie, mot de passe ou secret ;
+- garder les donnees privees dans `~/.local/share/privacy-broker-ops/profiles/<profile>/`.
+
+Le depot versionne uniquement :
+
+- le code ;
+- les templates ;
+- la documentation ;
+- des donnees d'exemple comme `data/person.example.yaml`.
+
+Verification locale utile avant commit :
+
+```bash
+git status
+git diff --stat
+uv run pytest
+uv run ruff check .
+```
+
+## Workflow Codex
+
+Workflow recommande par phase :
+
+1. lire le prompt de la phase cible ;
+2. travailler sur une branche dediee ;
+3. faire de petits commits coherents ;
+4. lancer `pytest` et `ruff` avant push ;
+5. ouvrir une PR dediee a la phase.
+
+Contraintes de travail :
+
+- ne pas creer de branche, PR, commit ou push sans demande explicite ;
+- ne pas melanger plusieurs phases dans une meme PR ;
+- ne pas pousser `AGENT.md` ;
+- garder le dashboard sur `127.0.0.1`.
+
+## Limites V0
+
+Limites actuelles du projet :
+
+- aucun envoi automatique d'email ;
+- aucune confirmation automatique de suppression sans preuve ;
+- aucune resolution automatique des homonymes ;
+- dashboard local simple, sans authentification ni multi-utilisateur ;
+- supervision humaine encore requise avant tout envoi reel ou action CNIL.
+
 ## Tests
 
 ```bash

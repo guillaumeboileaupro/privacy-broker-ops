@@ -89,15 +89,15 @@ Règle d’usage :
 
 ## Phase 6 — documentation et workflow final
 
-- [ ] Appliquer le prompt `docs/codex-prompts/06-docs-and-final-check.md`.
-- [ ] Mettre à jour README.
-- [ ] Mettre à jour TODO.
-- [ ] Mettre à jour AGENT.
-- [ ] Ajouter les exemples de commandes.
-- [ ] Ajouter une section “Données privées et Git”.
-- [ ] Ajouter une section “Workflow Codex”.
-- [ ] Lancer `uv run pytest`.
-- [ ] Lancer `uv run ruff check .`.
+- [X] Appliquer le prompt `docs/codex-prompts/06-docs-and-final-check.md`.
+- [X] Mettre à jour README.
+- [X] Mettre à jour TODO.
+- [X] Mettre à jour AGENT.
+- [X] Ajouter les exemples de commandes.
+- [X] Ajouter une section “Données privées et Git”.
+- [X] Ajouter une section “Workflow Codex”.
+- [X] Lancer `uv run pytest`.
+- [X] Lancer `uv run ruff check .`.
 
 ## Git / PR / workflow agent
 
