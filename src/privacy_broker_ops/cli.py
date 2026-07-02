@@ -385,7 +385,13 @@ def dashboard(
     db: Path | None = DB_OPTION,
     host: str = typer.Option("127.0.0.1", help="Adresse d'ecoute."),
     port: int = typer.Option(8080, help="Port local."),
+    readonly: bool = typer.Option(False, help="Active le mode lecture seule."),
 ) -> None:
     """Lance le dashboard local."""
     console.print(f"[green]Dashboard :[/green] http://{host}:{port}")
-    uvicorn.run(create_app(resolve_db_path(profile, db)), host=host, port=port, reload=False)
+    uvicorn.run(
+        create_app(resolve_db_path(profile, db), profile=profile, readonly=readonly),
+        host=host,
+        port=port,
+        reload=False,
+    )

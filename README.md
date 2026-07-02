@@ -125,11 +125,26 @@ Lancer le dashboard :
 uv run pbo dashboard --profile guillaume
 ```
 
+Lancer le dashboard en lecture seule :
+
+```bash
+uv run pbo dashboard --profile guillaume --readonly
+```
+
 Puis ouvrir :
 
 ```text
 http://127.0.0.1:8080
 ```
+
+Le dashboard propose :
+
+- un accueil avec compteurs globaux et compteurs par broker ;
+- une liste des expositions avec filtre par statut ;
+- une page detail par exposition ;
+- une page relances a faire ;
+- des actions locales sures pour generer une demande, generer une relance et exporter un CSV ;
+- un mode lecture seule qui bloque toute ecriture.
 
 ## Statuts
 
@@ -154,6 +169,8 @@ http://127.0.0.1:8080
 - Ne pas stocker de documents sensibles inutiles dans le dépôt.
 - Les donnees locales privees doivent rester hors du depot Git.
 - Les sorties `out/` et la base `*.db` sont ignorees par Git si elles existent dans le repo.
+- Le dashboard doit rester sur `127.0.0.1` par defaut.
+- Le dashboard n'affiche jamais le contenu complet d'un email ni les secrets locaux.
 
 ## Configuration personnelle
 

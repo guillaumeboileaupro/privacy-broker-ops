@@ -163,9 +163,15 @@ class Repository:
             )
             return int(cur.lastrowid)
 
-    def list_mail_events(self) -> list[MailEvent]:
+    def list_mail_events(self, exposure_id: int | None = None) -> list[MailEvent]:
         with self.connect() as con:
-            rows = con.execute("SELECT * FROM mail_events ORDER BY id DESC").fetchall()
+            if exposure_id is None:
+                rows = con.execute("SELECT * FROM mail_events ORDER BY id DESC").fetchall()
+            else:
+                rows = con.execute(
+                    "SELECT * FROM mail_events WHERE exposure_id = ? ORDER BY id DESC",
+                    (exposure_id,),
+                ).fetchall()
         return [self._row_to_mail_event(row) for row in rows]
 
     @staticmethod

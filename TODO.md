@@ -71,21 +71,21 @@ Règle d’usage :
 - [X] Ajouter `pbo reminder generate`.
 - [X] Ajouter un résumé terminal urgent / bientôt / ok.
 - [X] Ajouter des tests sur les délais de relance.
-- [ ] Lancer `uv run pytest`.
-- [ ] Lancer `uv run ruff check .`.
+- [X] Lancer `uv run pytest`.
+- [X] Lancer `uv run ruff check .`.
 
 ## Phase 5 — dashboard minimal renforcé
 
-- [ ] Appliquer le prompt `docs/codex-prompts/05-dashboard.md`.
-- [ ] Garder le dashboard sur `127.0.0.1` par défaut.
-- [ ] Ajouter une page détail par exposition.
-- [ ] Ajouter des filtres par statut.
-- [ ] Ajouter une page “Relances à faire”.
-- [ ] Ajouter un mode lecture seule.
-- [ ] Ajouter un export CSV depuis le dashboard.
-- [ ] Ne pas afficher de secret ou donnée sensible inutile.
-- [ ] Lancer `uv run pytest`.
-- [ ] Lancer `uv run ruff check .`.
+- [X] Appliquer le prompt `docs/codex-prompts/05-dashboard.md`.
+- [X] Garder le dashboard sur `127.0.0.1` par défaut.
+- [X] Ajouter une page détail par exposition.
+- [X] Ajouter des filtres par statut.
+- [X] Ajouter une page “Relances à faire”.
+- [X] Ajouter un mode lecture seule.
+- [X] Ajouter un export CSV depuis le dashboard.
+- [X] Ne pas afficher de secret ou donnée sensible inutile.
+- [X] Lancer `uv run pytest`.
+- [X] Lancer `uv run ruff check .`.
 
 ## Phase 6 — documentation et workflow final
 
