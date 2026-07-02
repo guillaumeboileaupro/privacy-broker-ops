@@ -38,10 +38,16 @@ uv run pbo --help
 
 ## Démarrage rapide
 
-Initialiser la base locale :
+Initialiser le profil local par defaut :
 
 ```bash
 uv run pbo init
+```
+
+Initialiser un profil nomme :
+
+```bash
+uv run pbo init --profile guillaume
 ```
 
 Lister les brokers connus :
@@ -54,6 +60,7 @@ Ajouter une exposition :
 
 ```bash
 uv run pbo exposure add \
+  --profile guillaume \
   --broker idcrawl \
   --url "https://example.com/profile" \
   --status A_VERIFIER \
@@ -70,31 +77,58 @@ uv run pbo exposure list
 Générer une demande RGPD :
 
 ```bash
-uv run pbo request generate --exposure-id 1 --out out/requests
+uv run pbo request generate --profile guillaume --exposure-id 1
 ```
 
 Générer un brouillon `.eml` :
 
 ```bash
-uv run pbo request eml --exposure-id 1 --out out/eml
+uv run pbo request eml --profile guillaume --exposure-id 1
+```
+
+Importer un mail recu ou un brouillon local dans le suivi :
+
+```bash
+uv run pbo mail import \
+  --profile guillaume \
+  --file /tmp/reponse.eml \
+  --exposure-id 1
+```
+
+Lister les mails traces :
+
+```bash
+uv run pbo mail list --profile guillaume
 ```
 
 Vérifier les relances à faire :
 
 ```bash
-uv run pbo agent check
+uv run pbo agent check --profile guillaume
+```
+
+Generer un brouillon de relance :
+
+```bash
+uv run pbo reminder generate --profile guillaume --exposure-id 1
 ```
 
 Exporter le tracker :
 
 ```bash
-uv run pbo tracker export --out out/tracker.csv
+uv run pbo tracker export --profile guillaume
 ```
 
 Lancer le dashboard :
 
 ```bash
-uv run pbo dashboard
+uv run pbo dashboard --profile guillaume
+```
+
+Lancer le dashboard en lecture seule :
+
+```bash
+uv run pbo dashboard --profile guillaume --readonly
 ```
 
 Puis ouvrir :
@@ -102,6 +136,15 @@ Puis ouvrir :
 ```text
 http://127.0.0.1:8080
 ```
+
+Le dashboard propose :
+
+- un accueil avec compteurs globaux et compteurs par broker ;
+- une liste des expositions avec filtre par statut ;
+- une page detail par exposition ;
+- une page relances a faire ;
+- des actions locales sures pour generer une demande, generer une relance et exporter un CSV ;
+- un mode lecture seule qui bloque toute ecriture.
 
 ## Statuts
 
@@ -124,18 +167,71 @@ http://127.0.0.1:8080
 - Ne jamais envoyer d’email automatiquement en V0.
 - Toujours garder l’URL, la date et le statut.
 - Ne pas stocker de documents sensibles inutiles dans le dépôt.
-- Le fichier `data/person.yaml` est ignoré par Git.
-- Les sorties `out/` et la base `*.db` sont ignorées par Git.
+- Les donnees locales privees doivent rester hors du depot Git.
+- Les sorties `out/` et la base `*.db` sont ignorees par Git si elles existent dans le repo.
+- Le dashboard doit rester sur `127.0.0.1` par defaut.
+- Le dashboard n'affiche jamais le contenu complet d'un email ni les secrets locaux.
 
 ## Configuration personnelle
 
-Copier l’exemple :
+Le registre versionne reste dans le repo :
 
 ```bash
-cp data/person.example.yaml data/person.yaml
+data/brokers.yaml
 ```
 
-Puis modifier `data/person.yaml`. Ce fichier ne doit pas être commité.
+Les donnees privees locales par profil vont dans :
+
+```text
+~/.local/share/privacy-broker-ops/profiles/<profile>/
+```
+
+Fichiers principaux :
+
+```text
+~/.local/share/privacy-broker-ops/profiles/<profile>/privacy_broker_ops.db
+~/.local/share/privacy-broker-ops/profiles/<profile>/person.yaml
+~/.local/share/privacy-broker-ops/profiles/<profile>/mail/
+~/.local/share/privacy-broker-ops/profiles/<profile>/mail/inbox/
+~/.local/share/privacy-broker-ops/profiles/<profile>/mail/sent/
+~/.local/share/privacy-broker-ops/profiles/<profile>/mail/drafts/
+~/.local/share/privacy-broker-ops/profiles/<profile>/evidence/
+~/.local/share/privacy-broker-ops/profiles/<profile>/exports/
+```
+
+Creer ensuite le fichier local personne a partir de l'exemple versionne :
+
+```bash
+cp data/person.example.yaml ~/.local/share/privacy-broker-ops/profiles/default/person.yaml
+```
+
+Ou pour un profil nomme :
+
+```bash
+cp data/person.example.yaml ~/.local/share/privacy-broker-ops/profiles/guillaume/person.yaml
+```
+
+Ces fichiers ne doivent jamais etre commites.
+
+## Suivi des mails
+
+Les fichiers `.eml` et `.txt` importes restent hors Git dans le profil local.
+
+La base `mail_events` conserve uniquement :
+
+- le chemin local du fichier ;
+- un hash `sha256` ;
+- un extrait court du corps ;
+- les metadonnees utiles : sujet, expediteur, destinataire, dates et type.
+
+## Agent de relance
+
+Regles par defaut :
+
+- J+15 : relance douce
+- J+30 : relance RGPD ferme
+- J+45 : preparation CNIL
+- aucune relance pour `CLOS`, `SUPPRESSION_CONFIRMEE`, `HOMONYME`, `REFUS`
 
 ## Tests
 
@@ -147,6 +243,22 @@ Lint :
 
 ```bash
 uv run ruff check .
+```
+
+Si `uv` ne peut pas ecrire dans `~/.cache/uv` dans un environnement contraint, utiliser le script du depot :
+
+```bash
+bash scripts/run-checks.sh
+```
+
+Il force un cache writable dans `.cache/uv` a la racine du projet via `UV_CACHE_DIR`.
+
+Si `uv` ne peut pas telecharger les dependances, le script accepte aussi des fallbacks locaux deja installes :
+
+```bash
+PBO_TEST_PYTHON=/path/to/python \
+PBO_RUFF_BIN=/path/to/ruff \
+bash scripts/run-checks.sh
 ```
 
 ## Roadmap courte

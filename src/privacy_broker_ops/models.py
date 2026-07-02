@@ -3,7 +3,7 @@ from __future__ import annotations
 from enum import StrEnum
 from typing import Literal
 
-from pydantic import BaseModel, Field, HttpUrl
+from pydantic import BaseModel, Field
 
 
 class ExposureStatus(StrEnum):
@@ -19,6 +19,25 @@ class ExposureStatus(StrEnum):
     RELANCE_A_FAIRE = "RELANCE_A_FAIRE"
     CNIL_A_ENVISAGER = "CNIL_A_ENVISAGER"
     CLOS = "CLOS"
+
+
+class MailDirection(StrEnum):
+    OUTBOUND = "OUTBOUND"
+    INBOUND = "INBOUND"
+
+
+class MailKind(StrEnum):
+    REQUEST = "REQUEST"
+    REMINDER = "REMINDER"
+    RESPONSE = "RESPONSE"
+    OTHER = "OTHER"
+
+
+class ReminderKind(StrEnum):
+    NONE = "NONE"
+    SOFT = "SOFT"
+    FORMAL = "FORMAL"
+    CNIL = "CNIL"
 
 
 class Broker(BaseModel):
@@ -59,11 +78,46 @@ class Exposure(BaseModel):
     last_contact_at: str | None = None
 
 
+class MailEventCreate(BaseModel):
+    exposure_id: int
+    broker_id: str
+    direction: MailDirection
+    kind: MailKind
+    subject: str
+    from_address: str = ""
+    to_address: str = ""
+    sent_at: str | None = None
+    received_at: str | None = None
+    status: str = ""
+    eml_path: str
+    body_excerpt: str = ""
+    sha256: str
+
+
+class MailEvent(BaseModel):
+    id: int
+    exposure_id: int
+    broker_id: str
+    direction: MailDirection
+    kind: MailKind
+    subject: str
+    from_address: str = ""
+    to_address: str = ""
+    sent_at: str | None = None
+    received_at: str | None = None
+    status: str = ""
+    eml_path: str
+    body_excerpt: str = ""
+    sha256: str
+    created_at: str
+
+
 class AgentDecision(BaseModel):
     exposure_id: int
     broker_id: str
     current_status: ExposureStatus
     recommended_status: ExposureStatus
+    reminder_kind: ReminderKind = ReminderKind.NONE
     reason: str
     urgency: Literal["ok", "soon", "urgent"] = "ok"
     days_since_last_contact: int | None = Field(default=None, ge=0)

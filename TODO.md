@@ -37,55 +37,55 @@ Règle d’usage :
 
 ## Phase 2 — stockage local privé par profil
 
-- [ ] Appliquer le prompt `docs/codex-prompts/02-local-private-storage.md`.
-- [ ] Séparer données versionnées et données privées locales.
-- [ ] Ajouter le stockage par profil `default`.
-- [ ] Ajouter le stockage par profil nommé avec `--profile <name>`.
-- [ ] Stocker les données privées dans `~/.local/share/privacy-broker-ops/profiles/<profile>/`.
-- [ ] Corriger `.gitignore`.
-- [ ] Retirer toute DB réelle ou donnée privée du repo si présente.
-- [ ] Mettre à jour README et AGENT.
-- [ ] Lancer `uv run pytest`.
-- [ ] Lancer `uv run ruff check .`.
+- [X] Appliquer le prompt `docs/codex-prompts/02-local-private-storage.md`.
+- [X] Séparer données versionnées et données privées locales.
+- [X] Ajouter le stockage par profil `default`.
+- [X] Ajouter le stockage par profil nommé avec `--profile <name>`.
+- [X] Stocker les données privées dans `~/.local/share/privacy-broker-ops/profiles/<profile>/`.
+- [X] Corriger `.gitignore`.
+- [X] Retirer toute DB réelle ou donnée privée du repo si présente.
+- [X] Mettre à jour README et AGENT.
+- [X] Lancer `uv run pytest`.
+- [X] Lancer `uv run ruff check .`.
 
 ## Phase 3 — suivi des mails
 
-- [ ] Appliquer le prompt `docs/codex-prompts/03-mail-events.md`.
-- [ ] Ajouter ou compléter la table `mail_events`.
-- [ ] Stocker les `.eml` hors Git dans le profil local.
-- [ ] Ajouter `sha256` pour tracer les preuves.
-- [ ] Ajouter `pbo mail import`.
-- [ ] Importer `.eml` et `.txt`.
-- [ ] Ne stocker qu’un extrait court du corps dans la DB.
-- [ ] Ajouter des tests d’import mail avec données fictives.
-- [ ] Lancer `uv run pytest`.
-- [ ] Lancer `uv run ruff check .`.
+- [X] Appliquer le prompt `docs/codex-prompts/03-mail-events.md`.
+- [X] Ajouter ou compléter la table `mail_events`.
+- [X] Stocker les `.eml` hors Git dans le profil local.
+- [X] Ajouter `sha256` pour tracer les preuves.
+- [X] Ajouter `pbo mail import`.
+- [X] Importer `.eml` et `.txt`.
+- [X] Ne stocker qu’un extrait court du corps dans la DB.
+- [X] Ajouter des tests d’import mail avec données fictives.
+- [X] Lancer `uv run pytest`.
+- [X] Lancer `uv run ruff check .`.
 
 ## Phase 4 — relances et agent de suivi
 
-- [ ] Appliquer le prompt `docs/codex-prompts/04-reminder-agent.md`.
-- [ ] Ajouter la règle J+15 : relance douce.
-- [ ] Ajouter la règle J+30 : relance RGPD ferme.
-- [ ] Ajouter la règle J+45 : `CNIL_A_ENVISAGER`.
-- [ ] Ajouter `pbo agent check`.
-- [ ] Ajouter `pbo reminder generate`.
-- [ ] Ajouter un résumé terminal urgent / bientôt / ok.
-- [ ] Ajouter des tests sur les délais de relance.
-- [ ] Lancer `uv run pytest`.
-- [ ] Lancer `uv run ruff check .`.
+- [X] Appliquer le prompt `docs/codex-prompts/04-reminder-agent.md`.
+- [X] Ajouter la règle J+15 : relance douce.
+- [X] Ajouter la règle J+30 : relance RGPD ferme.
+- [X] Ajouter la règle J+45 : `CNIL_A_ENVISAGER`.
+- [X] Ajouter `pbo agent check`.
+- [X] Ajouter `pbo reminder generate`.
+- [X] Ajouter un résumé terminal urgent / bientôt / ok.
+- [X] Ajouter des tests sur les délais de relance.
+- [X] Lancer `uv run pytest`.
+- [X] Lancer `uv run ruff check .`.
 
 ## Phase 5 — dashboard minimal renforcé
 
-- [ ] Appliquer le prompt `docs/codex-prompts/05-dashboard.md`.
-- [ ] Garder le dashboard sur `127.0.0.1` par défaut.
-- [ ] Ajouter une page détail par exposition.
-- [ ] Ajouter des filtres par statut.
-- [ ] Ajouter une page “Relances à faire”.
-- [ ] Ajouter un mode lecture seule.
-- [ ] Ajouter un export CSV depuis le dashboard.
-- [ ] Ne pas afficher de secret ou donnée sensible inutile.
-- [ ] Lancer `uv run pytest`.
-- [ ] Lancer `uv run ruff check .`.
+- [X] Appliquer le prompt `docs/codex-prompts/05-dashboard.md`.
+- [X] Garder le dashboard sur `127.0.0.1` par défaut.
+- [X] Ajouter une page détail par exposition.
+- [X] Ajouter des filtres par statut.
+- [X] Ajouter une page “Relances à faire”.
+- [X] Ajouter un mode lecture seule.
+- [X] Ajouter un export CSV depuis le dashboard.
+- [X] Ne pas afficher de secret ou donnée sensible inutile.
+- [X] Lancer `uv run pytest`.
+- [X] Lancer `uv run ruff check .`.
 
 ## Phase 6 — documentation et workflow final
 
@@ -109,7 +109,7 @@ Règle d’usage :
 - [X] Interdire force push.
 - [X] Ajouter un template PR dans `AGENT.md`.
 - [X] Ajouter une checklist avant commit/push.
-- [ ] Vérifier que `.gitignore` protège les DB, mails, preuves et fichiers personnels.
+- [X] Vérifier que `.gitignore` protège les DB, mails, preuves et fichiers personnels.
 
 ## Conventional Commits
 
